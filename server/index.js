@@ -14,12 +14,12 @@ app.use(express.static('client'));
 
 var messages=[
 	{
-		id:1,
+		id:0,
 		text:"Bienvenido al chat",
 		nickname:'Comodito'
 	},
 	{
-		id:2,
+		id:1,
 		text:"En que podemos ayudarlo",
 		nickname:'Comodito'
 	}
@@ -29,7 +29,14 @@ var messages=[
 io.on('connection',function(socket){
 	console.log("El nodo con IP: "+socket.handshake.address+" se ha conectado");
 	socket.emit('messages',messages);
+	socket.on('add-message',function(data){
+		messages.push(data);
+		var length=messages.length;
+		messages[length-1].id=length-1
+		socket.emit('messages',messages);
+	});
 });
+
 
 
 

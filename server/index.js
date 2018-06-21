@@ -12,8 +12,23 @@ app.use(express.static('client'));
  });
 
 
+var messages=[
+	{
+		id:1,
+		text:"Bienvenido al chat",
+		nickname:'Comodito'
+	},
+	{
+		id:2,
+		text:"En que podemos ayudarlo",
+		nickname:'Comodito'
+	}
+];
+
+
 io.on('connection',function(socket){
 	console.log("El nodo con IP: "+socket.handshake.address+" se ha conectado");
+	socket.emit('messages',messages);
 });
 
 
